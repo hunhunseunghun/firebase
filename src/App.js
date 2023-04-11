@@ -1,10 +1,15 @@
 import logo from './logo.svg';
 import './App.css';
-import { firebaseDB , dbRef} from "./Firebase.jsx"
+import { firebaseDB , dbRef, writeUserData} from "./Firebase.jsx"
 
 function App() {
 
  console.log("firebaseDB", firebaseDB, dbRef)
+
+const onclickHandler = () => {
+  writeUserData()
+  console.log("onclick executed")
+}
 
   return (
     <div className="App">
@@ -22,6 +27,7 @@ function App() {
           Learn React
         </a>
       </header>
+      <button onClick={onclickHandler}>TEST crud DATABASE</button>
     </div>
   );
 }

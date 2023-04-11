@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import {getFirestore, collection, getDocs} from "firebase/firestore/lite"
-import {getDatabase, ref, child, get} from "firebase/database"
+import {getDatabase, ref, child, get, set} from "firebase/database"
 
 import "firebase/database"
 // TODO: Add SDKs for Firebase products that you want to use
@@ -36,7 +36,16 @@ get(child(dbRef, "users")).then(snapshot => {
   }
 }).catch(err => console.log(err))
 
-
+export const  writeUserData = (userId, name, email, imageUrl) => {
+  console.log("wirte user excuted")
+  const db = getDatabase();
+  set(ref(db, 'users/'), {
+  morg : {
+    age : "4",
+    sex : "?",
+  }
+  });
+}
 
 
 
