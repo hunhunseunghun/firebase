@@ -9,7 +9,7 @@ import "firebase/database"
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
+export const firebaseConfig1 = {
   apiKey: process.env.REACT_APP_API_KEY,
   authDomain: process.env.REACT_APP_AUTH_DOMAIN,
   projectId: process.env.REACT_APP_PROJECT_ID,
@@ -18,6 +18,17 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_APP_ID,
   measurementId: process.env.REACT_APP_MEASUREMENT_ID,
   databaseURL: process.env.REACT_APP_DATABASE_URL
+};
+
+export const firebaseConfig = {
+  apiKey: "AIzaSyBQweY5lzDrVgU2EseAfKdaKhT-wSvFmAI",
+  authDomain: "morg-btob-mvp.firebaseapp.com",
+  databaseURL: "https://morg-btob-mvp-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "morg-btob-mvp",
+  storageBucket: "morg-btob-mvp.appspot.com",
+  messagingSenderId: "682511297304",
+  appId: "1:682511297304:web:ad9e3a41b067d37ae5cc6d",
+  measurementId: "G-0J289B8EW6"
 };
 
 // Initialize Firebase
@@ -41,8 +52,8 @@ export const  writeUserData = (userId, name, email, imageUrl) => {
   const db = getDatabase();
   set(ref(db, 'users/'), {
   morg : {
-    age : "4",
-    sex : "?",
+    age : "443",
+    sex : "553",
   }
   });
 }

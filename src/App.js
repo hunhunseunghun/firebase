@@ -1,10 +1,9 @@
 import logo from './logo.svg';
 import './App.css';
-import { firebaseDB , dbRef, writeUserData} from "./Firebase.jsx"
+import { firebaseConfig1, firebaseDB , dbRef, writeUserData} from "./Firebase.jsx"
 
 function App() {
-
- console.log("firebaseDB", firebaseDB, dbRef)
+  console.log(process.env.REACT_APP_PROJECT_ID)
 
 const onclickHandler = () => {
   writeUserData()
