@@ -1,7 +1,11 @@
 import logo from './logo.svg';
 import './App.css';
+import { firebaseDB , dbRef} from "./Firebase.jsx"
 
 function App() {
+
+ console.log("firebaseDB", firebaseDB, dbRef)
+
   return (
     <div className="App">
       <header className="App-header">
