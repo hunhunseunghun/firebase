@@ -5,7 +5,9 @@ import {useEffect,useState} from "react"
 import { auth, firebaseDB , dbRef, writeUserData} from "./Firebase.jsx"
 // google Oauth
 import { getAuth, signOut, getRedirectResult, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-
+// kakao 전역객체 사용 --------------------
+/*global Kakao*/
+//--------------------------------------
 
 function App() {
   console.log(process.env.REACT_APP_PROJECT_ID)
@@ -55,9 +57,20 @@ const googleSignOutHandler = () => {
   })
 
 }
+// 카카오 로그인 --------------------------------------------------------
+
+const kakaoLogin = () => {
+  const redirectUri = "http://localhost:3000"
+  Kakao.Auth.authorize({
+    redirectUri: redirectUri})
+}
 
 
+const onLoginWithKaKao = () => {
+ 
 
+
+}
 
 
     
@@ -73,6 +86,11 @@ const googleSignOutHandler = () => {
       </div>
       <button onClick={googleSigninHandler}>Sign in with Google</button>
       <button onClick={googleSignOutHandler}>Sign out with Google</button>
+
+
+      <div>
+        <button onClick={kakaoLogin}>카카오톡 로그인</button>
+      </div>
     </div>
   );
 }
