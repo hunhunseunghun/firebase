@@ -63,8 +63,15 @@ const kakaoLogin = () => {
   const redirectUri = "http://localhost:3000"
   Kakao.Auth.authorize({
     redirectUri: redirectUri})
+  
 }
 
+useEffect(() => {
+  console.log(window.location.search)
+  // 카카오톡 인가 코드 query params에서 추출
+  const searchParams = new URLSearchParams(window.location.search)
+  const code = searchParams.get("code")
+},[])
 
 const onLoginWithKaKao = () => {
  
