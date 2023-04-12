@@ -2,9 +2,9 @@ import logo from './logo.svg';
 import './App.css';
 
 import {useEffect,useState} from "react"
-import { firebaseDB , dbRef, writeUserData} from "./Firebase.jsx"
+import { auth, firebaseDB , dbRef, writeUserData} from "./Firebase.jsx"
 // google Oauth
-import { getAuth, getRedirectResult, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { getAuth, signOut, getRedirectResult, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
 
 function App() {
@@ -15,39 +15,50 @@ const onclickHandler = () => {
   console.log("onclick executed")
 }
 
+const [googleSigninUser, setGoogleSigninUser] = useState("")
+const [googleSigninUserImage, setGoogleSinginUserImage] = useState("")
 
-//google Oauth
+const googleSigninHandler = () => {
+  console.log("googleSigninHandler executed")
+  const provider = new GoogleAuthProvider();
+  const auth = getAuth();
 
-const [googleSignedUser, setGoogleSignedUser] = useState(null);
-
-const googleSigninHandler =  async () => {
-  const googleProvider =  new GoogleAuthProvider();
-  const googleAuth = getAuth()
-
-
-
-
-  // gives google access token. can use it to access the google API
-  signInWithPopup(googleAuth, googleProvider)
+  signInWithPopup(auth, provider)
   .then((result) => {
     const credential = GoogleAuthProvider.credentialFromResult(result);
     const token = credential.accessToken;
-    //signed-in user info
     const user = result.user;
-    setGoogleSignedUser(user)
+    setGoogleSigninUser(user.displayName)
+    setGoogleSinginUserImage(user.photoURL)
+    console.log("googleSigninHandler success", user)
+    console.log(googleSigninUserImage)
    
   }).catch((error) => {
-    // Handle Errors here.
+    console.log("googleSigninHandler error", error)
     const errorCode = error.code;
     const errorMessage = error.message;
-    // email of the user's account used.
-    const email = error.customDtat.email;
-    // The firebase.auth.AuthCredential type that was used.
+    const email = error.email;
     const credential = GoogleAuthProvider.credentialFromError(error);
-    
-    console.log("google signin error", errorCode, errorMessage, email, credential)
   })
 }
+
+//google Oauth sign out
+
+const googleSignOutHandler = () => {
+  const auth = getAuth()
+  signOut(auth).then(() => {
+    console.log("google sign out success")
+    setGoogleSigninUser("")
+    setGoogleSinginUserImage("")
+  }).catch((error) => {
+    console.log("google sign out error", error)
+  })
+
+}
+
+
+
+
 
     
 
@@ -56,8 +67,12 @@ const googleSigninHandler =  async () => {
   return (
     <div className="App">
       <button onClick={onclickHandler}>TEST crud DATABASE</button>
-      <div>welcome, {googleSignedUser}</div>
-      <button onclick={googleSigninHandler}>Signin with Google</button>
+      <div>
+      <img src={googleSigninUserImage} />
+      <div>welcome, {googleSigninUser}</div>
+      </div>
+      <button onClick={googleSigninHandler}>Sign in with Google</button>
+      <button onClick={googleSignOutHandler}>Sign out with Google</button>
     </div>
   );
 }
