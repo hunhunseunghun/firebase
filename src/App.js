@@ -1,5 +1,8 @@
 import logo from './logo.svg';
 import './App.css';
+import axios from "axios"
+
+import {Routes,Route,Navigate} from "react-router-dom"
 
 import {useEffect,useState} from "react"
 import { auth, firebaseDB , dbRef, writeUserData} from "./Firebase.jsx"
@@ -59,19 +62,37 @@ const googleSignOutHandler = () => {
 }
 // 카카오 로그인 --------------------------------------------------------
 
-const kakaoLogin = () => {
-  const redirectUri = "http://localhost:3000"
-  Kakao.Auth.authorize({
-    redirectUri: redirectUri})
+// const kakaoLogin = () => {
+//   const redirectUri = "http://localhost:3000"
+//   Kakao.Auth.authorize({
+//     redirectUri: redirectUri})
   
-}
+// }
 
-useEffect(() => {
-  console.log(window.location.search)
-  // 카카오톡 인가 코드 query params에서 추출
-  const searchParams = new URLSearchParams(window.location.search)
-  const code = searchParams.get("code")
-},[])
+// useEffect(() => {
+//   console.log(window.location.search)
+//   // 카카오톡 로그인 인가 코드 query params에서 추출
+//   const searchParams = new URLSearchParams(window.location.search)
+//   // 카카오톡 로그인 인가 코드
+//   const code = searchParams.get("code")
+  
+//   if(code.length){
+
+//    axios({
+//     url: `https://kauth.kakao.com/oauth/token`,
+//     method: 'post',
+//     params: {
+//       grant_type: 'authorization_code',
+//       client_id: "1b390b2153d3c027714c4bae71801d02",
+//       redirect_uri:"http://localhost:3000",
+//       code: code,
+//     },
+//   });
+
+//   }
+// },[])
+
+
 
 const onLoginWithKaKao = () => {
  
@@ -79,6 +100,11 @@ const onLoginWithKaKao = () => {
 
 }
 
+const kakaoCode = () => {
+const url = "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=1b390b2153d3c027714c4bae71801d02&redirect_uri=https://localhost:3000/oauth/kakao"
+axios.get(url).then((res)=>console.log(res))
+
+}
 
     
 
@@ -96,8 +122,10 @@ const onLoginWithKaKao = () => {
 
 
       <div>
-        <button onClick={kakaoLogin}>카카오톡 로그인</button>
+       <button onClick = {kakaoCode}>카카오로그인</button>
       </div>
+      
+     
     </div>
   );
 }
