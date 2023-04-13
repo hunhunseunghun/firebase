@@ -7,7 +7,7 @@ import {Routes,Route,Navigate} from "react-router-dom"
 import {useEffect,useState} from "react"
 import { auth, firebaseDB , dbRef, writeUserData} from "./Firebase.jsx"
 // google Oauth
-import { getAuth, signOut, getRedirectResult, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { getAuth, signOut, getRedirectResult, signInWithPopup, GoogleAuthProvider,createUserWithEmailAndPassword,signInWithEmailAndPassword } from "firebase/auth";
 // kakao 전역객체 사용 --------------------
 /*global Kakao*/
 //--------------------------------------
@@ -108,9 +108,43 @@ axios.get(url).then((res)=>console.log(res))
 
     
 
+const createUser = () => {
+  createUserWithEmailAndPassword(getAuth(),email, password)
+  .then((result) => {console.log(result.user)})
+}
 
+
+
+
+const [email,setEmail] = useState("")
+const [password,setPassword] = useState("")
+
+const emailHandler = (e) => {
+   setEmail(e.target.value)
+}
+const passwordHandler = e => {
+   setPassword(e.target.value)
+}
+
+
+const firebaseLogin = () => {
+  signInWithEmailAndPassword(auth, email, password)
+  .then((userCredential) => {
+    // Signed in
+    const user = userCredential.user;
+    // ...
+    console.log(user)
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+  });
+
+
+}
 
   return (
+    
     <div className="App">
       <button onClick={onclickHandler}>TEST crud DATABASE</button>
       <div>
@@ -125,6 +159,16 @@ axios.get(url).then((res)=>console.log(res))
        <button onClick = {kakaoCode}>카카오로그인</button>
       </div>
       
+      <div>
+        Firebase 회원가입
+        <button onClick ={createUser}>회원가입</button>
+        <button onClick={firebaseLogin}>로그인</button>
+      <input type="email" onChange={emailHandler}></input>
+      <input type="password" onChange={passwordHandler}></input>
+      <div>{email}</div>
+      <div>{password}</div>
+    
+      </div>
      
     </div>
   );
