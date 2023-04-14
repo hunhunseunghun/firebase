@@ -4,6 +4,7 @@ import {getFirestore, collection, getDocs} from "firebase/firestore/lite"
 import {getDatabase, ref, child, get, set} from "firebase/database"
 import {getAuth, GoogleAuthProvider} from "firebase/auth"
 
+
 import "firebase/database"
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -50,8 +51,14 @@ export const  writeUserData = (userId, name, email, imageUrl) => {
   });
 }
 
+// firebase 로그인 여부 확인
+
+
 
 // google Oauth ----------------------------------------------------------------
 const auth = getAuth(app)
 const provider = new GoogleAuthProvider()
 export {auth,provider}
+
+
+

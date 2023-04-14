@@ -7,9 +7,17 @@ import {Routes,Route,Navigate} from "react-router-dom"
 import {useEffect,useState} from "react"
 import { auth, firebaseDB , dbRef, writeUserData} from "./Firebase.jsx"
 // google Oauth
-import { getAuth, signOut, getRedirectResult, signInWithPopup, GoogleAuthProvider,createUserWithEmailAndPassword,signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signOut,setPersistence,browserSessionPersistence, getRedirectResult, signInWithPopup, GoogleAuthProvider,createUserWithEmailAndPassword,signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+
+
+
+
+
+
 // kakao 전역객체 사용 --------------------
+
 /*global Kakao*/
+
 //--------------------------------------
 
 function App() {
@@ -111,6 +119,7 @@ axios.get(url).then((res)=>console.log(res))
 const createUser = () => {
   createUserWithEmailAndPassword(getAuth(),email, password)
   .then((result) => {console.log(result.user)})
+  .catch(err=>console.log(err))
 }
 
 
@@ -143,6 +152,48 @@ const firebaseLogin = () => {
 
 }
 
+// Firebase 로그인 여부 확인 ----------------------------------------
+useEffect(() => {
+  setPersistence(auth, browserSessionPersistence)
+  .then((result) => {console.log(result)})
+  .catch((error) => {console.log(error)})
+// 현재 로그인 상태 확인
+  onAuthStateChanged(getAuth(), (user) => {
+    if(user){
+      const uid = user.uid
+      console.log(uid)
+    }else {
+      console.log("user signed out")
+    }
+  })
+},[])
+
+
+// const firebaseLoggedHandler = () => {
+
+//   onAuthStateChanged(getAuth(), (user) => {
+//     if(user){
+//       const uid = user.uid
+//       console.log(uid)
+//     }else {
+//       console.log("user signed out")
+//     }
+//   })
+
+// }
+
+
+
+// --------------------------------------------------------------
+// 로그아웃 --------------------------------------------------------
+const signoutHandler = () => {
+
+  signOut(auth)
+  .then(() => {console.log("signout succed")}) // logout successful
+  .catch((error) => {console.log("signout error")}); // logout fail
+
+
+}
   return (
     
     <div className="App">
@@ -167,8 +218,14 @@ const firebaseLogin = () => {
       <input type="password" onChange={passwordHandler}></input>
       <div>{email}</div>
       <div>{password}</div>
+
     
       </div>
+
+      <div>
+        <button onClick={signoutHandler}l>로그아웃</button>
+      </div>
+
      
     </div>
   );
